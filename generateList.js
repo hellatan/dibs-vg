@@ -15,7 +15,7 @@ const buildList = () => {
     fs.readdir(`${__dirname}/src`, (err, ls) => {
         checkError(err);
         const svgs = ls.filter(fileName => fileName.match(/\.svg$/));
-        fs.writeFile(`${__dirname}/list.json`, JSON.stringify(svgs), { encoding : "UTF-8" }, err => {
+        fs.writeFile(`${__dirname}/list.json`, JSON.stringify(svgs, null, 2), { encoding : "UTF-8" }, err => {
             checkError(err);
         });
     });
