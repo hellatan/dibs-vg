@@ -25,7 +25,7 @@ const buildList = () => {
             .filter(fileName => !deprecatedFileNames.includes(fileName));
         fs.writeFile(
             `${rootPath}/list.json`,
-            JSON.stringify(svgs, null, 2),
+            JSON.stringify(svgs, null, 4),
             { encoding: 'UTF-8' },
             err => checkError(err)
         );
