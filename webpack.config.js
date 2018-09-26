@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 
 const path = require('path');
 const webpack = require('webpack');
@@ -9,25 +9,25 @@ const babelLoader = {
     test: /\.(js|jsx|svg)$/,
     loader: 'babel',
     query: {
-        "presets": ["es2015", "stage-2", "react"]
-    }
+        presets: ['es2015', 'stage-2', 'react'],
+    },
 };
 
 if (process.env.NODE_ENV !== 'production') {
-    babelLoader.query.presets.push("react-hmre");
+    babelLoader.query.presets.push('react-hmre');
 }
 
 module.exports = {
     entry: [
         path.resolve(__dirname, './sample/js/sample.js'),
         'webpack/hot/dev-server',
-        `webpack-dev-server/client?http://localhost:${port}/`
+        `webpack-dev-server/client?http://localhost:${port}/`,
     ],
     output: {
         path: path.resolve(__dirname, './sample/compiled'),
         filename: 'sample.js',
         publicPath: '/sample/compiled',
-        sourceMapFilename: '[file].map'
+        sourceMapFilename: '[file].map',
     },
     devtool: 'source-map',
     module: {
@@ -36,35 +36,35 @@ module.exports = {
             { test: /\.svg$/, loader: 'svg-react' },
             { test: /\.json/, loader: 'json' },
             // importLoaders=1 uses global as default, not local
-            { test: /\.scss/, loaders: [
-                'style',
-                'css-loader?modules&importLoaders=1&camelCase&localIdentName=[name]__[local]___[hash:base64:5]',
-                'postcss',
-                'sass-loader?outputStyle=expanded&includePaths[]=node_modules'
-            ] }
+            {
+                test: /\.scss/,
+                loaders: [
+                    'style',
+                    'css-loader?modules&importLoaders=1&camelCase&localIdentName=[name]__[local]___[hash:base64:5]',
+                    'postcss',
+                    'sass-loader?outputStyle=expanded&includePaths[]=node_modules',
+                ],
+            },
         ],
         resolve: {
             alias: {
-                "react-dom": __dirname + '/node_modules/react'
-            }
-        }
+                'react-dom': __dirname + '/node_modules/react',
+            },
+        },
     },
     postcss(_webpack) {
         return [
             precss,
             postcssImport({
-                addDependencyTo: _webpack
-            })
+                addDependencyTo: _webpack,
+            }),
         ];
     },
-    plugins: [
-        new webpack.HotModuleReplacementPlugin()
-    ],
+    plugins: [new webpack.HotModuleReplacementPlugin()],
     devServer: {
         hot: true,
         stats: {
-            colors: true
-        }
-    }
+            colors: true,
+        },
+    },
 };
-

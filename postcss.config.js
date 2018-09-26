@@ -8,8 +8,8 @@ module.exports = {
                 'last 2 firefox versions',
                 'safari > 5',
                 'ie > 9',
-                'ios > 5'
-            ]
-        })
-    ]
+                'ios > 5',
+            ],
+        }),
+    ],
 };

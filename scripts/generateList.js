@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 
 const fs = require('fs');
 const path = require('path');
@@ -17,12 +17,16 @@ const buildList = () => {
     const rootPath = path.resolve(__dirname, '../');
     fs.readdir(`${rootPath}/src`, (error, ls) => {
         checkError(error);
-        const deprecatedFileNames = Object.keys(deprecatedFileMap).map(fileName => `${fileName}.svg`);
-        const svgs = ls.filter(fileName => fileName.match(/\.svg$/)).filter(fileName => !deprecatedFileNames.includes(fileName));
+        const deprecatedFileNames = Object.keys(deprecatedFileMap).map(
+            fileName => `${fileName}.svg`
+        );
+        const svgs = ls
+            .filter(fileName => fileName.match(/\.svg$/))
+            .filter(fileName => !deprecatedFileNames.includes(fileName));
         fs.writeFile(
             `${rootPath}/list.json`,
             JSON.stringify(svgs, null, 2),
-            { encoding: "UTF-8" },
+            { encoding: 'UTF-8' },
             err => checkError(err)
         );
     });

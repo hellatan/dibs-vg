@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 
 /**
  * Builds the raw_modules directory - each file will be a JS module that uses back ticks to export a multi line string.
@@ -30,13 +30,17 @@ const promises = svgs.map(file => {
     const leFile = `${rootPath}/src/${file}`;
     const name = file.split('.')[0];
 
-    const contents = fs.readFileSync(leFile, {encoding: 'UTF-8'});
+    const contents = fs.readFileSync(leFile, { encoding: 'UTF-8' });
 
     // generate template string module :
     const stringContents = `module.exports = \`${contents}\`;`;
 
     fs.writeFileSync(`${stringDest}/${name}.es.js`, stringContents, { encoding: 'UTF-8' });
-    fs.writeFileSync(`${stringDest}/${name}.js`, babel.transform(stringContents, { presets: ["es2015", "stage-2", "react"] }).code, { encoding: 'UTF-8' });
+    fs.writeFileSync(
+        `${stringDest}/${name}.js`,
+        babel.transform(stringContents, { presets: ['es2015', 'stage-2', 'react'] }).code,
+        { encoding: 'UTF-8' }
+    );
 
     // generate react module :
     return new Promise((resolve, reject) => {
@@ -46,20 +50,22 @@ const promises = svgs.map(file => {
                 remaining--;
 
                 const babelResult = babel.transform(result, {
-                    presets: ["es2015", "stage-2", "react"],
-                    plugins: [htmlToReactAttributes]
+                    presets: ['es2015', 'stage-2', 'react'],
+                    plugins: [htmlToReactAttributes],
                 });
-                fs.writeFileSync(`${reactDest}/${name}.js`, babelResult.code, { encoding: 'UTF-8' });
+                fs.writeFileSync(`${reactDest}/${name}.js`, babelResult.code, {
+                    encoding: 'UTF-8',
+                });
                 fs.writeFileSync(`${reactDest}/${name}.jsx`, result, { encoding: 'UTF-8' });
                 resolve();
             })
-            .catch((err) => reject([err, file]));
+            .catch(err => reject([err, file]));
     });
 });
 
 Promise.all(promises)
     .then(() => {
-        console.log("Successfully compiled all SVG files.");
+        console.log('Successfully compiled all SVG files.');
     })
     .catch(([err, file]) => {
         console.log(`Failed to compile SVG file ${file}`);

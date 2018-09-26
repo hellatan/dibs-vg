@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 
 /**
  * Converts HTML to a react component (string).
@@ -7,10 +7,10 @@
 
 const Xml = require('xml2js');
 const attrKey = 'attributes';
-const parser = new Xml.Parser({attrkey: attrKey});
-const builder = new Xml.Builder({attrkey: attrKey, headless: true});
+const parser = new Xml.Parser({ attrkey: attrKey });
+const builder = new Xml.Builder({ attrkey: attrKey, headless: true });
 const deprecatedFileMap = require('./deprecatedFileMap');
-const template = (xml, warning = "") => {
+const template = (xml, warning = '') => {
     return `const React = require('react');
 class Component extends React.Component {
     render() {
@@ -23,27 +23,30 @@ module.exports = Component;
 `;
 };
 
-const deprecationWarning = (fileName) => {
+const deprecationWarning = fileName => {
     if (deprecatedFileMap[fileName]) {
         return `if (process.env.NODE_ENV !== 'production') {
-            console.warn("dibs-vg | '${fileName}' svg is deprecated. Use '${deprecatedFileMap[fileName]}'. ❤️ Majd");
+            console.warn("dibs-vg | '${fileName}' svg is deprecated. Use '${
+            deprecatedFileMap[fileName]
+        }'. ❤️ Majd");
         }
         `;
     }
 
-    return "";
+    return '';
 };
 
 const convertToJsx = (fileName, html) => {
     return new Promise((fulfill, reject) => {
         parser.parseString(html, (err, obj) => {
-
             if (err) {
                 return reject(err);
             }
 
             const attr = obj.svg[attrKey];
-            const openingTagWithClass = `<svg className={ [this.props.className, '${attr.class}'].join(' ')} data-tn={'${fileName}'}`;
+            const openingTagWithClass = `<svg className={ [this.props.className, '${
+                attr.class
+            }'].join(' ')} data-tn={'${fileName}'}`;
 
             ['version', 'class', 'xmlns', 'xmlns:xlink'].forEach(str => {
                 delete attr[str];
